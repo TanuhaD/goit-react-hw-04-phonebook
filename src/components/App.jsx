@@ -3,21 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { FormAddContact, Contacts, Filter } from './';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    () => JSON.parse(localStorage.getItem('contacts')) || []
+  );
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const contacts = localStorage.getItem('contacts');
-    if (contacts) {
-      debugger;
-      setContacts(JSON.parse(contacts));
-    }
-  }, []);
-
-  useEffect(() => {
-    const newContacts = JSON.stringify(contacts);
-    debugger;
-    localStorage.setItem('contacts', newContacts);
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const addContact = ({ name, number }) => {
